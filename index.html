@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Naija Word Book</title>
+<meta name="description" content="English words explained Naija-style: meaning, pronunciation, everyday examples and Naija tips.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Manrope:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#f6f4fb; --surface:#ffffff; --fg:#17121f; --muted:#625a70; --line:#e2dcee;
+  --accent:#6b2fd6; --accent-2:#9b5cf5; --accent-soft:#efe7fe; --naija:#0f8a4a; --naija-soft:#e3f5ea;
+  --display:"Bricolage Grotesque","Manrope",system-ui,sans-serif;
+  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e0b14; --surface:#18131f; --fg:#f2eefa; --muted:#a69cb8; --line:#2c2438;
+  --accent:#a777ff; --accent-2:#c39cff; --accent-soft:#2a1d42; --naija:#4fd08a; --naija-soft:#13291d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e0b14; --surface:#18131f; --fg:#f2eefa; --muted:#a69cb8; --line:#2c2438;
+  --accent:#a777ff; --accent-2:#c39cff; --accent-soft:#2a1d42; --naija:#4fd08a; --naija-soft:#13291d; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55;
+  padding:28px max(16px,env(safe-area-inset-right,0px)) 48px max(16px,env(safe-area-inset-left,0px))}
+.wrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(1.9rem,6vw,2.6rem);line-height:1;margin:0;letter-spacing:-.02em}
+h1 span{color:var(--accent)}
+.sub{color:var(--muted);font-size:.9rem;margin:0}
+
+.search{position:relative}
+form{display:flex;gap:8px}
+input{flex:1;min-width:0;font:600 1.05rem var(--body);padding:14px 16px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--fg)}
+input:focus{outline:none;border-color:var(--accent)}
+input::-webkit-search-cancel-button{display:none}
+button{font:700 1rem var(--body);border:0;border-radius:12px;padding:0 20px;cursor:pointer;background:var(--accent);color:#fff}
+button:hover{background:var(--accent-2)}
+button:focus-visible,.chip:focus-visible{outline:3px solid var(--accent-2);outline-offset:2px}
+.sugg{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:5;background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:6px;display:flex;flex-direction:column;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.sugg[hidden]{display:none}
+.sugg button{background:none;color:var(--fg);text-align:left;padding:10px 12px;font-weight:700;border-radius:8px}
+.sugg button:hover,.sugg button.on{background:var(--accent-soft);color:var(--accent)}
+.sugg small{color:var(--muted);font-weight:500;margin-left:8px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:18px}
+.word{font-family:var(--display);font-weight:800;font-size:clamp(2rem,8vw,3rem);line-height:1;margin:0;letter-spacing:-.02em;overflow-wrap:anywhere}
+.pron{font-weight:700;color:var(--accent);font-size:1rem;margin-top:6px}
+.pos{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-left:8px}
+.meaning{font-size:1.15rem;font-weight:500;margin:0}
+.block{display:flex;flex-direction:column;gap:6px}
+.label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.example{margin:0;padding:14px 16px;border-radius:12px;background:var(--accent-soft);font-weight:500}
+.tip{margin:0;padding:14px 16px;border-radius:12px;background:var(--naija-soft)}
+.tip strong{color:var(--naija)}
+.status{color:var(--muted);font-size:.95rem;margin:0}
+
+.recent{display:flex;flex-direction:column;gap:10px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:600 .9rem var(--body);background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer}
+.chip:hover{border-color:var(--accent);color:var(--accent);background:var(--surface)}
+.ghost{background:transparent;color:var(--accent);padding:6px 4px;font-size:.9rem}
+.ghost:hover{background:transparent;color:var(--accent-2)}
+.note{font-size:.8rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Naija <span>Word Book</span></h1>
+    <p class="sub">Meaning, usage, and how to say it Naija-style.</p>
+  </header>
+
+  <div class="search">
+    <form id="f" autocomplete="off">
+      <input id="q" type="search" placeholder="Type any English word…" autocapitalize="none" spellcheck="false" aria-label="Word to look up" aria-controls="sugg">
+      <button type="submit">Define</button>
+    </form>
+    <div class="sugg" id="sugg" role="listbox" hidden></div>
+  </div>
+
+  <article class="card" id="card" aria-live="polite"></article>
+
+  <section class="recent">
+    <div class="row">
+      <span class="label">Recent words</span>
+      <button class="ghost" id="rand" type="button">Surprise me →</button>
+    </div>
+    <div class="chips" id="chips"></div>
+    <span class="note" id="note"></span>
+  </section>
+</div>
+
+<script>
+/* ===================== WORD LIST =====================
+   To add a word, copy one line and change the details.
+   Fields: word, pron (pronunciation), pos (noun/verb/adjective...),
+           meaning, example, tip (Naija tip, Pidgin welcome)
+   ===================================================== */
+const WORDS = [
+  {word:"Abandon",pron:"uh-BAN-dun",pos:"verb",meaning:"To leave someone or something and not come back.",example:"He abandoned his car on the express road when it broke down.",tip:"A bit formal. Casual Naija: \"he just comot leave am, no look back.\" Related: abandoned."},
+  {word:"Advice",pron:"ad-VYSS",pos:"noun",meaning:"An opinion you give someone about what they should do.",example:"My mama's advice was to finish NYSC before I travel.",tip:"No \"s\" at the end — no be \"advices.\" The verb na \"advise\" (ad-VYZE). Naija: \"make I advise you small.\""},
+  {word:"Anachronistic",pron:"an-ak-ruh-NIS-tik",pos:"adjective",meaning:"Something that belongs to a different time period, out of place in the present.",example:"Still asking clients to send payment proof by fax? That's anachronistic, abeg.",tip:"It sounds formal. In casual Naija talk, people say \"old school\" or \"outdated.\" Use it in writing, presentations, or when you want to sound sharp."},
+  {word:"Angry",pron:"ANG-gree",pos:"adjective",meaning:"Feeling strong annoyance or upset.",example:"Oga was angry because NEPA took light during the match.",tip:"Everyday word. Naija: \"e don vex\" or \"he don para.\""},
+  {word:"Borrow",pron:"BOR-oh",pos:"verb",meaning:"To collect something from someone, promising to return it.",example:"Abeg, can I borrow your charger? I go return am before you close.",tip:"You borrow FROM someone; you lend TO someone. So \"abeg borrow me your pen\" for proper English na \"lend me your pen.\""},
+  {word:"Brave",pron:"BRAYV",pos:"adjective",meaning:"Ready to face danger or difficulty without fear.",example:"She was brave enough to report the fake agent.",tip:"Naija: \"she get mind\" or \"he no dey fear anything.\""},
+  {word:"Bureaucracy",pron:"byoo-ROK-ruh-see",pos:"noun",meaning:"A system with many rules, layers of approval, and paperwork, often making things slow.",example:"I just wanted to change one letter in my name, but the bureaucracy at that office had me running from desk to desk for two weeks.",tip:"Often used to complain about delays. Related: bureaucrat, bureaucratic. Naija version: \"na file go, file come.\""},
+  {word:"Busy",pron:"BIZ-ee",pos:"adjective",meaning:"Having a lot to do; not free.",example:"Wuse market is always busy on Saturdays.",tip:"Say BIZ-ee, not BOO-see. Naija: \"I dey hook\" or \"my hand full.\""},
+  {word:"Cheap",pron:"CHEEP",pos:"adjective",meaning:"Low in price; doesn't cost much money.",example:"Tomatoes are cheap in the market during the rainy season.",tip:"Can also mean low quality, so careful when you dey describe gift. Naija: \"e no cost\" or \"na small money.\""},
+  {word:"Complain",pron:"kum-PLAYN",pos:"verb",meaning:"To say you are unhappy about something.",example:"Passengers complained when the driver increased transport fare.",tip:"The noun na \"complaint.\" Naija: \"why you dey complain anyhow?\""},
+  {word:"Confuse",pron:"kun-FYOOZ",pos:"verb",meaning:"To make someone unsure or unable to understand.",example:"The new BRT routes confused many commuters.",tip:"Related: confused, confusion. Naija: \"my head don scatter.\""},
+  {word:"Delay",pron:"dih-LAY",pos:"verb",meaning:"To make something happen later than planned.",example:"Traffic in Nyanya delayed me for over an hour.",tip:"Common in office and travel talk. Naija: \"traffic hold me.\""},
+  {word:"Disappoint",pron:"dis-uh-POINT",pos:"verb",meaning:"To fail to do what someone hoped or expected.",example:"The tailor disappointed me; my cloth no ready for the wedding.",tip:"Naija: \"you fall my hand.\" Noun: disappointment."},
+  {word:"Eager",pron:"EE-ger",pos:"adjective",meaning:"Very ready and excited to do something.",example:"The corps members were eager to collect their first allowee.",tip:"Positive word. Naija: \"he dey hungry for am\" or \"she don ready finish.\""},
+  {word:"Eccentric",pron:"ik-SEN-trik",pos:"adjective",meaning:"Unusual or a bit strange in behaviour, style, or ideas, usually in a harmless or interesting way.",example:"Our new landlord is eccentric. He wears agbada to jog every morning.",tip:"Milder than \"strange\" or \"weird,\" so it's safe to use politely. Naija version: \"he get him own style.\""},
+  {word:"Enjoy",pron:"en-JOY",pos:"verb",meaning:"To get pleasure from something.",example:"We enjoyed the jollof at the owambe.",tip:"In proper English, enjoy needs an object: \"we enjoyed ourselves,\" not just \"we enjoyed.\" Naija: \"we flex well well.\""},
+  {word:"Fake",pron:"FAYK",pos:"adjective",meaning:"Not real or genuine; made to deceive.",example:"He sold her a fake iPhone at Computer Village.",tip:"Naija: \"na Aba made\" or \"no be original.\""},
+  {word:"Fragile",pron:"FRAJ-ile",pos:"adjective",meaning:"Easy to break or damage.",example:"Handle that crate of eggs gently, it's fragile.",tip:"You go see am for packaging. Naija: \"handle am with care, e fit break anyhow.\""},
+  {word:"Generous",pron:"JEN-er-us",pos:"adjective",meaning:"Happy to give money, time or help to others.",example:"Our pastor is so generous, he paid school fees for three children.",tip:"Opposite: stingy. Naija: \"him hand dey open, e dey dash.\""},
+  {word:"Gossip",pron:"GOS-ip",pos:"verb",meaning:"To talk about other people's private lives.",example:"The women at the compound love to gossip after church.",tip:"Person wey dey gossip na \"amebo.\" Naija: \"stop to dey carry people matter for head.\""},
+  {word:"Humble",pron:"HUM-bul",pos:"adjective",meaning:"Not proud; not thinking you are better than others.",example:"Even after he hammed, he remained humble.",tip:"Naija: \"he no dey form\" or \"she no get shakara.\""},
+  {word:"Hustle",pron:"HUS-ul",pos:"verb",meaning:"To work hard, often doing several jobs, to make money.",example:"She hustles with tailoring and selling provisions at the same time.",tip:"The \"t\" is silent. Very common for Naija: \"I dey hustle\" or \"na hustle we dey.\""},
+  {word:"Insult",pron:"in-SULT",pos:"verb",meaning:"To say or do something rude that hurts someone's feelings.",example:"The conductor insulted the passenger over a ₦100 change.",tip:"Stress moves: in-SULT (verb), IN-sult (noun). Naija: \"he yab me\" or \"he talk rubbish give me.\""},
+  {word:"Jealous",pron:"JEL-us",pos:"adjective",meaning:"Unhappy because someone has something you want.",example:"He became jealous when his friend bought a new phone.",tip:"Naija: \"your eye dey red\" or \"na bad belle.\""},
+  {word:"Kind",pron:"KYND",pos:"adjective",meaning:"Friendly and caring towards others.",example:"A kind woman paid my okada fare when my transfer failed.",tip:"Naija: \"she get good heart.\""},
+  {word:"Lazy",pron:"LAY-zee",pos:"adjective",meaning:"Not willing to work or make effort.",example:"Don't be lazy, go and fetch the water.",tip:"Naija: \"body no dey do am\" or \"he dey form tired.\""},
+  {word:"Lie",pron:"LY",pos:"verb",meaning:"To say something you know is not true.",example:"He lied that he was in traffic, but he was still sleeping.",tip:"Past tense: lied. No mix am with \"lie down\" (past: lay). Naija: \"stop to dey fabu.\""},
+  {word:"Mistake",pron:"mis-TAYK",pos:"noun",meaning:"Something done wrongly by accident.",example:"I sent the money to the wrong account by mistake.",tip:"You MAKE a mistake, you no \"do\" mistake. Naija: \"na mistake, I no mean am.\""},
+  {word:"Negotiate",pron:"ni-GOH-shee-ayt",pos:"verb",meaning:"To discuss with someone to reach an agreement, often on price.",example:"You have to negotiate before you buy anything in the market.",tip:"For market, no just pay the first price wey trader call. Price am! Na so dem dey do am."},
+  {word:"Nihilism",pron:"NY-uh-liz-um",pos:"noun",meaning:"The belief that life has no real meaning, purpose, or values.",example:"After three failed businesses, his talk is pure nihilism: \"Nothing matters, na just survival.\"",tip:"Philosophical and formal. Related: nihilist, nihilistic. Naija version: \"life no get meaning.\""},
+  {word:"Patient",pron:"PAY-shunt",pos:"adjective",meaning:"Able to wait calmly without getting upset.",example:"Be patient, the bank queue go soon move.",tip:"Also means a sick person for hospital. Naija: \"take am easy, e go reach.\""},
+  {word:"Proud",pron:"PROWD",pos:"adjective",meaning:"Feeling pleased about something you or others did; or thinking too highly of yourself.",example:"His parents were proud when he graduated with a second class upper.",tip:"Fit be good (\"we proud of you\") or bad (\"he too proud\"). Bad version for Naija: \"he dey do shakara.\""},
+  {word:"Stingy",pron:"STIN-jee",pos:"adjective",meaning:"Not willing to spend or share money.",example:"He's too stingy to even buy pure water for his friends.",tip:"Naija: \"him hand tight\" or \"he no dey gree drop.\""},
+  {word:"Ubiquitous",pron:"yoo-BIK-wi-tus",pos:"adjective",meaning:"Found everywhere, all the time.",example:"Keke is ubiquitous in Abuja suburbs. You can't walk two minutes without seeing one.",tip:"Formal, so it fits writing or presentations. Casual Naija: \"e full everywhere.\""},
+  {word:"Upend",pron:"up-END",pos:"verb",meaning:"To turn something upside down, or completely disrupt how things normally work.",example:"The new fuel price upended everybody's budget. Even transport fare don double.",tip:"Common in news and business talk. Casual Naija: \"e scatter everything.\""},
+  {word:"Waste",pron:"WAYST",pos:"verb",meaning:"To use something carelessly or without good purpose.",example:"Stop wasting data on videos, your subscription go soon finish.",tip:"Naija: \"no waste am\" or \"you don spoil am for nothing.\""},
+
+  /* ---- Batch 2 ---- */
+  {word:"Accept",pron:"ak-SEPT",pos:"verb",meaning:"To agree to take something, or to agree that something is true.",example:"She accepted the job offer even though the office is far from Karu.",tip:"No mix am with \"except\" (ik-SEPT), wey mean \"apart from.\" Naija: \"I don gree.\""},
+  {word:"Afford",pron:"uh-FORD",pos:"verb",meaning:"To have enough money or time to pay for or do something.",example:"With this fuel price, many people can't afford to drive to work every day.",tip:"Usually comes with \"can\" or \"can't.\" Naija: \"my pocket no reach\" or \"I no get that kind money.\""},
+  {word:"Annoy",pron:"uh-NOY",pos:"verb",meaning:"To make someone a little angry or irritated.",example:"The generator noise from next door annoys everybody in the compound.",tip:"Softer than \"angry.\" Naija: \"you dey vex me\" or \"you dey get on my nerves.\""},
+  {word:"Apologise",pron:"uh-POL-uh-jyz",pos:"verb",meaning:"To say you are sorry for something you did wrong.",example:"The bank apologised after they debited my account twice.",tip:"UK spelling: apologise; US: apologize. Noun: apology. Naija: \"abeg no vex.\""},
+  {word:"Arrogant",pron:"AR-uh-gunt",pos:"adjective",meaning:"Behaving as if you are better or more important than other people.",example:"The new manager is so arrogant, he doesn't even greet the security men.",tip:"Stronger than \"proud.\" Naija: \"he dey form\" or \"too much shakara.\""},
+  {word:"Assume",pron:"uh-SYOOM",pos:"verb",meaning:"To think something is true without checking or having proof.",example:"Don't assume the meeting is cancelled because nobody posted in the group.",tip:"Noun: assumption. Naija: \"no just think am say na so e be.\""},
+  {word:"Blame",pron:"BLAYM",pos:"verb",meaning:"To say that someone is responsible for something bad.",example:"Everybody blamed the electrician when the fridge spoiled.",tip:"Naija: \"no put am for my head\" or \"na your fault.\""},
+  {word:"Boast",pron:"BOHST",pos:"verb",meaning:"To talk too proudly about what you have or what you did.",example:"He keeps boasting about his new car, but the papers no complete.",tip:"Naija: \"to dey shout\" or \"to dey do pepper dem.\""},
+  {word:"Calm",pron:"KAHM",pos:"adjective",meaning:"Peaceful and not worried, angry or excited.",example:"Stay calm, the network will come back soon.",tip:"The \"l\" is silent: KAHM. Naija: \"take am easy\" or \"cool down.\""},
+  {word:"Careless",pron:"KAIR-lus",pos:"adjective",meaning:"Not paying enough attention, so mistakes or damage happen.",example:"The careless driver hit the keke while pressing phone.",tip:"Opposite: careful. Naija: \"you no dey look road\" or \"you too dey do anyhow.\""},
+  {word:"Celebrate",pron:"SEL-uh-brayt",pos:"verb",meaning:"To do something special and enjoyable because of a happy event.",example:"We celebrated his call-to-bar with small chops and loud music.",tip:"Noun: celebration. Naija: \"make we flex\" or \"na owambe time.\""},
+  {word:"Compromise",pron:"KOM-pruh-myz",pos:"noun",meaning:"An agreement where each side gives up something they wanted.",example:"The landlord wanted full payment, but the compromise was six months now and six later.",tip:"Can also be a verb. Naija: \"make we meet for middle.\""},
+  {word:"Convince",pron:"kun-VINS",pos:"verb",meaning:"To make someone believe something or agree to do it.",example:"It took me a whole week to convince my dad to buy a solar inverter.",tip:"Related: convinced, convincing. Naija: \"I don talk am finish, e don gree.\""},
+  {word:"Crowded",pron:"KROW-did",pos:"adjective",meaning:"Full of too many people.",example:"The BRT bus was so crowded, people were standing at the door.",tip:"Naija: \"people full ground\" or \"no space at all.\""},
+  {word:"Deceive",pron:"dih-SEEV",pos:"verb",meaning:"To make someone believe something that is not true.",example:"The agent deceived them with fake pictures of the apartment.",tip:"Noun: deception. Naija: \"he play me\" or \"he don fall my hand.\""},
+  {word:"Decent",pron:"DEE-sunt",pos:"adjective",meaning:"Good enough, respectable, or acceptable.",example:"He got a decent apartment in Jabi at a fair price.",tip:"No mix am with \"descent\" (going down). Naija: \"e dey okay, e no bad.\""},
+  {word:"Deny",pron:"dih-NY",pos:"verb",meaning:"To say something is not true, or to refuse to give something.",example:"He denied eating the meat, but the oil was still on his hand.",tip:"Noun: denial. Naija: \"he say no be am.\""},
+  {word:"Determined",pron:"dih-TUR-mind",pos:"adjective",meaning:"Strongly decided to do something, even when it is hard.",example:"She was determined to finish her degree while working full time.",tip:"Naija: \"she don put mind\" or \"nothing go stop am.\""},
+  {word:"Discipline",pron:"DIS-uh-plin",pos:"noun",meaning:"Training yourself or others to follow rules and control behaviour.",example:"It takes discipline to save money every month in this economy.",tip:"Can also be a verb (to punish). Naija: \"you need to get control.\""},
+  {word:"Embarrass",pron:"im-BAR-us",pos:"verb",meaning:"To make someone feel shy, ashamed or uncomfortable in front of others.",example:"His mother embarrassed him by calling him \"my baby\" in front of his friends.",tip:"Spelling: double \"r,\" double \"s.\" Naija: \"you don disgrace me\" or \"I shame.\""},
+  {word:"Encourage",pron:"in-KUR-ij",pos:"verb",meaning:"To give someone support or confidence to do something.",example:"My lecturer encouraged me to apply for the scholarship.",tip:"Opposite: discourage. Naija: \"no give up, you fit do am.\""},
+  {word:"Excuse",pron:"ik-SKYOOS",pos:"noun",meaning:"A reason you give to explain why you did something wrong or didn't do something.",example:"Traffic is always his excuse for coming late to church.",tip:"As a verb it's ik-SKYOOZ (\"excuse me\"). Naija: \"stop to dey give story.\""},
+  {word:"Flexible",pron:"FLEK-suh-bul",pos:"adjective",meaning:"Able to change easily; not fixed.",example:"The job has flexible hours, so I can still do my NYSC CDS.",tip:"Naija: \"e fit bend\" or \"we fit adjust am.\""},
+  {word:"Forgive",pron:"fer-GIV",pos:"verb",meaning:"To stop being angry with someone for something they did.",example:"She forgave her sister for borrowing her dress without asking.",tip:"Past: forgave, forgiven. Naija: \"I don leave am for God.\""},
+  {word:"Frustrate",pron:"frus-TRAYT",pos:"verb",meaning:"To make someone feel annoyed because they can't do what they want.",example:"The slow network frustrated me while I was trying to submit my form.",tip:"Related: frustrated, frustration. Naija: \"this tin wan kill me.\""},
+  {word:"Grateful",pron:"GRAYT-ful",pos:"adjective",meaning:"Feeling thankful for something someone did.",example:"I'm grateful to my uncle for paying my school fees.",tip:"Spelling: \"grate,\" not \"great.\" Naija: \"God bless you, I appreciate.\""},
+  {word:"Greedy",pron:"GREE-dee",pos:"adjective",meaning:"Wanting more than you need, especially food or money.",example:"The greedy man took three plates of rice at the party.",tip:"Naija: \"long throat\" or \"he no dey satisfy.\""},
+  {word:"Hesitate",pron:"HEZ-ih-tayt",pos:"verb",meaning:"To pause before doing or saying something because you are unsure.",example:"Don't hesitate to call me if the generator gives you problems.",tip:"Noun: hesitation. Naija: \"no dey shake\" or \"no dey fear, just do am.\""},
+  {word:"Honest",pron:"ON-ist",pos:"adjective",meaning:"Truthful; not lying, cheating or stealing.",example:"The honest okada man returned the phone I forgot on his bike.",tip:"The \"h\" is silent: ON-ist, so you say \"an honest man.\" Naija: \"him mouth clean.\""},
+  {word:"Impatient",pron:"im-PAY-shunt",pos:"adjective",meaning:"Not able to wait calmly; easily annoyed by delay.",example:"Impatient drivers kept horning at the traffic light.",tip:"Opposite: patient. Naija: \"why you dey rush like this?\""},
+  {word:"Influence",pron:"IN-floo-uns",pos:"noun",meaning:"The power to change how someone thinks or acts.",example:"Her friends have a strong influence on what she wears.",tip:"Also a verb. Person wey get influence na \"influencer.\" Naija: \"he get connection.\""},
+  {word:"Inspire",pron:"in-SPYR",pos:"verb",meaning:"To give someone the desire or idea to do something good.",example:"Her success story inspired many young girls in her village.",tip:"Related: inspiration, inspiring. Naija: \"e ginger me.\""},
+  {word:"Loyal",pron:"LOY-ul",pos:"adjective",meaning:"Always supporting someone or something, and not changing sides.",example:"He has been a loyal customer of that mama put for ten years.",tip:"Noun: loyalty. Naija: \"he no dey change side.\""},
+  {word:"Manipulate",pron:"muh-NIP-yuh-layt",pos:"verb",meaning:"To control or influence someone in a clever, unfair way.",example:"He manipulated his friends into paying for his birthday party.",tip:"Related: manipulative. Naija: \"he dey use sense take person.\""},
+  {word:"Opportunity",pron:"op-er-TYOO-nih-tee",pos:"noun",meaning:"A good chance to do something.",example:"The internship is a great opportunity to gain experience.",tip:"Naija: \"use am well, chance no dey come every time.\""},
+  {word:"Persuade",pron:"per-SWAYD",pos:"verb",meaning:"To make someone agree to do something by giving good reasons.",example:"She persuaded her parents to let her study abroad.",tip:"Close to \"convince.\" Naija: \"I beg am tey e gree.\""},
+  {word:"Postpone",pron:"pohst-POHN",pos:"verb",meaning:"To move an event to a later time.",example:"The wedding was postponed because of the fuel scarcity.",tip:"Say \"postponed,\" no be \"postponed to a later date\" (too long). Naija: \"dem shift am.\""},
+  {word:"Procrastinate",pron:"proh-KRAS-tih-nayt",pos:"verb",meaning:"To keep delaying something you should do.",example:"Stop procrastinating and submit your project before the deadline.",tip:"Noun: procrastination. Naija: \"I go do am tomorrow\" — wey tomorrow no dey reach."},
+  {word:"Punctual",pron:"PUNGK-choo-ul",pos:"adjective",meaning:"Arriving or doing things at the right time; not late.",example:"Our new pastor is very punctual; service starts at 8 sharp.",tip:"Opposite of \"African time.\" Naija: \"he dey reach on time.\""},
+  {word:"Regret",pron:"rih-GRET",pos:"verb",meaning:"To feel sorry or sad about something you did or didn't do.",example:"I regret not buying dollars last year.",tip:"Naija: \"if I know, I for…\" or \"na wetin I for do be dat.\""},
+  {word:"Rumour",pron:"ROO-mer",pos:"noun",meaning:"A story people pass around that may not be true.",example:"There's a rumour that the company will pay salaries late again.",tip:"UK spelling: rumour; US: rumor. Naija: \"na gist wey dey fly up and down.\""},
+  {word:"Sincere",pron:"sin-SEER",pos:"adjective",meaning:"Honest and meaning what you say.",example:"His apology was sincere, so I forgave him.",tip:"Adverb: sincerely, as in \"Yours sincerely.\" Naija: \"na from my heart.\""},
+  {word:"Struggle",pron:"STRUG-ul",pos:"verb",meaning:"To try very hard to do something that is difficult.",example:"Many families are struggling to buy food since prices went up.",tip:"Also a noun. Naija: \"we dey manage\" or \"e no easy.\""},
+  {word:"Tolerate",pron:"TOL-uh-rayt",pos:"verb",meaning:"To accept something you don't like without complaining.",example:"I can't tolerate noise when I'm working.",tip:"Related: tolerance, tolerant. Naija: \"I no fit bear am.\""},
+  {word:"Urgent",pron:"UR-junt",pos:"adjective",meaning:"Needing attention immediately.",example:"Please call me back, it's urgent.",tip:"Naija: \"e dey hot\" or \"na now-now matter.\""}
+];
+/* =================== END OF WORD LIST =================== */
+
+const DICT = {};
+WORDS.forEach(w => DICT[w.word.toLowerCase()] = w);
+const KEYS = Object.keys(DICT).sort();
+
+const $ = id => document.getElementById(id);
+const card=$("card"), chips=$("chips"), q=$("q"), sugg=$("sugg");
+
+function el(tag, cls, text){ const e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
+
+function render(d){
+  card.replaceChildren();
+  const head = el("div");
+  head.append(el("h2","word",d.word));
+  const p = el("div","pron",d.pron||""); if(d.pos) p.append(el("span","pos",d.pos));
+  head.append(p);
+  const m = el("div","block"); m.append(el("span","label","Meaning"), el("p","meaning",d.meaning));
+  card.append(head, m);
+  if(d.example){ const ex = el("div","block"); ex.append(el("span","label","Example"), el("p","example","“"+d.example.replace(/^["“]|["”]$/g,"")+"”")); card.append(ex); }
+  if(d.tip){ const tp = el("div","block"); const t = el("p","tip"); t.append(el("strong",null,"Tip: "), document.createTextNode(d.tip)); tp.append(el("span","label","Naija tip"), t); card.append(tp); }
+}
+
+// Spelling help for words not found
+function distance(a,b){
+  const m=[...Array(b.length+1).keys()];
+  for(let i=1;i<=a.length;i++){ let prev=m[0]; m[0]=i;
+    for(let j=1;j<=b.length;j++){ const t=m[j]; m[j]=Math.min(m[j]+1,m[j-1]+1,prev+(a[i-1]===b[j-1]?0:1)); prev=t; } }
+  return m[b.length];
+}
+function closest(w){ return KEYS.map(k=>[k,distance(w,k)]).sort((x,y)=>x[1]-y[1]).filter(x=>x[1]<=Math.max(2,Math.floor(w.length/3))).slice(0,4).map(x=>x[0]); }
+function findKey(w){
+  if(DICT[w]) return w;
+  for(const s of ["s","es","ed","d","ing","ly"]) if(w.endsWith(s) && DICT[w.slice(0,-s.length)]) return w.slice(0,-s.length);
+  if(w.endsWith("ied") && DICT[w.slice(0,-3)+"y"]) return w.slice(0,-3)+"y";
+  return null;
+}
+
+function renderMissing(w){
+  card.replaceChildren(el("h2","word",w), el("p","status","This word never enter the Word Book yet. We dey add more words regularly."));
+  const near = closest(w.toLowerCase());
+  if(near.length){
+    const b=el("div","block"); b.append(el("span","label","Did you mean?"));
+    const c=el("div","chips");
+    near.forEach(k=>{ const x=el("button","chip",DICT[k].word); x.type="button"; x.onclick=()=>show(k); c.append(x); });
+    b.append(c); card.append(b);
+  }
+}
+
+// Recent words, saved on this device only
+const RKEY="naija-wordbook-recent";
+let recent=[]; try{ recent=JSON.parse(localStorage.getItem(RKEY)||"[]").filter(k=>DICT[k]); }catch(e){}
+function saveRecent(){ try{ localStorage.setItem(RKEY,JSON.stringify(recent)); }catch(e){} }
+function renderChips(){
+  chips.replaceChildren();
+  recent.slice(0,24).forEach(k=>{ const b=el("button","chip",DICT[k].word); b.type="button"; b.onclick=()=>show(k); chips.append(b); });
+}
+
+function show(k){
+  hideSugg(); q.value = DICT[k].word; render(DICT[k]);
+  recent=[k,...recent.filter(x=>x!==k)].slice(0,24); saveRecent(); renderChips();
+  history.replaceState(null,"","#"+encodeURIComponent(k));
+}
+function lookup(raw){
+  const w = raw.trim().toLowerCase(); if(!w) return;
+  const k = findKey(w);
+  if(k) show(k); else { hideSugg(); renderMissing(raw.trim()); }
+}
+
+// Suggestions while typing
+let active=-1;
+function hideSugg(){ sugg.hidden=true; active=-1; }
+q.addEventListener("input", ()=>{
+  const w=q.value.trim().toLowerCase(); sugg.replaceChildren(); active=-1;
+  if(!w){ hideSugg(); return; }
+  const hits=KEYS.filter(k=>k.startsWith(w)).concat(KEYS.filter(k=>!k.startsWith(w)&&k.includes(w))).slice(0,6);
+  if(!hits.length){ hideSugg(); return; }
+  hits.forEach(k=>{ const b=el("button",null,DICT[k].word); b.type="button"; b.setAttribute("role","option");
+    b.append(el("small",null,DICT[k].pos)); b.onmousedown=e=>{e.preventDefault(); show(k);}; sugg.append(b); });
+  sugg.hidden=false;
+});
+q.addEventListener("keydown", e=>{
+  const items=[...sugg.children]; if(sugg.hidden||!items.length) return;
+  if(e.key==="ArrowDown"||e.key==="ArrowUp"){ e.preventDefault();
+    active=(active+(e.key==="ArrowDown"?1:-1)+items.length)%items.length;
+    items.forEach((b,i)=>b.classList.toggle("on",i===active)); }
+  else if(e.key==="Enter" && active>=0){ e.preventDefault(); items[active].onmousedown(e); }
+  else if(e.key==="Escape") hideSugg();
+});
+q.addEventListener("blur", ()=>setTimeout(hideSugg,150));
+
+$("f").addEventListener("submit", e=>{ e.preventDefault(); lookup(q.value); });
+$("rand").onclick = ()=> show(KEYS[Math.floor(Math.random()*KEYS.length)]);
+$("note").textContent = KEYS.length + " words so far. More dey come.";
+
+const start = decodeURIComponent(location.hash.slice(1));
+show(DICT[start] ? start : (recent[0] || "bureaucracy"));
+</script>
+</body>
+</html>
